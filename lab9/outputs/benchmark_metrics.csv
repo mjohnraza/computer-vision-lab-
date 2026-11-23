@@ -1,0 +1,4 @@
+Model,Latency_ms,Latency_std_ms,FPS,Model_Size_MB,Parameters,Mean_Confidence,Total_Detections
+YOLOv3-tiny,237.32,7.69,4.21,23.31,12173248,0.6218,20
+SSD-MobileNetV3,172.39,10.3,5.8,13.12,3440060,0.7469,14
+RetinaNet-ResNet50,8057.91,452.44,0.12,129.76,34014999,0.4939,48
