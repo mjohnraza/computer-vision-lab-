@@ -1,0 +1,43 @@
+================================================================================
+Q1(c) HOMOGENEOUS COORDINATES IN COMPUTER VISION: FORMAL EXPLANATION
+================================================================================
+1. REPRESENTATION:
+   - Euclidean 2D Point: (x, y) = (145.0, 280.0)
+   - Canonical Homogeneous Coordinate: [x, y, 1]^T = [145.0, 280.0, 1.0]^T
+   - Equivalence under scale lambda=3.5:
+     [507.5, 980.0, 3.5]^T
+     Dehomogenization (divide by W=3.5): (145.0, 280.0) -> Exactly matches original!
+
+2. WHY THE EXTRA COORDINATE (W) IS USED IN COMPUTER VISION:
+   -----------------------------------------------------------------------------
+   (a) LINEARIZATION OF AFFINE & PROJECTIVE TRANSFORMATIONS:
+       In 2D Cartesian coordinates, translation is non-linear: x' = x + tx (addition).
+       Rotation and scaling are linear: x' = Ax (multiplication).
+       Affine transformations therefore require a hybrid equation: x' = Ax + t.
+       By embedding 2D points into projective space P^2 with homogeneous coordinates,
+       translation becomes a standard matrix multiplication:
+         [x']   [a11 a12 tx] [x]
+         [y'] = [a21 a22 ty] [y]
+         [ 1]   [ 0   0   1] [1]
+       This converts all geometric transformations into unified matrix operations.
+
+   (b) EFFICIENT COMPOSITION OF MULTIPLE TRANSFORMATIONS:
+       Because every transformation is a 3x3 matrix, any sequence of N operations
+       can be pre-multiplied into a single 3x3 matrix: M = T_n * ... * T_2 * T_1.
+       Every scene point is transformed with a single matrix-vector product p' = M * p.
+       Calculated composite output for (145.0, 280.0): (-58.34, 251.73).
+
+   (c) REPRESENTATION OF POINTS AT INFINITY (IDEAL POINTS) & VANISHING POINTS:
+       In projective space P^2, parallel lines intersect at a point at infinity:
+         Line 1: -2x + y - 10 = 0 -> l1 = [-2, 1, -10]
+         Line 2: -2x + y - 40 = 0 -> l2 = [-2, 1, -40]
+         Intersection = l1 x l2 = [-30.0, -60.0, 0.0]^T
+       Notice W = 0! The point at infinity represents direction without division by zero.
+       Under perspective projection (cameras), points at infinity map to finite
+       vanishing points on the image plane (horizon line).
+
+   (d) PINHOLE CAMERA PERSPECTIVE PROJECTION:
+       The 3D to 2D perspective projection through a camera center is inherently projective:
+         lambda * [u, v, 1]^T = K * [R | t] * [X_w, Y_w, Z_w, 1]^T
+       Division by the scale factor lambda (depth Z) models physical perspective foreshortening.
+================================================================================
